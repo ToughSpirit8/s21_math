@@ -1,5 +1,5 @@
 #include "../s21_math.h"
-
+#include <math.h>
 
 void case_test(Suite *s, int *fail);
 
