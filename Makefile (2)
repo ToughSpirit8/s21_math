@@ -1,0 +1,18 @@
+CC=gcc
+CFLAGS=-Wall -Werror -Wextra -std=c11 -I.
+all_clean=$(INCDIR)/*~ *.gcda *.gcno *.out *.info *.a *.gcov *.o *.html *.css $(BIN)
+BIN=s21_math
+DEPS=s21_math.h
+OBJ=s21_math.o
+
+%.o: %.c $(DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+$(BIN): $(OBJ)
+	$(CC) -o $@ $^ $(CFLAGS)
+
+.PHONY: clean
+
+
+clean:
+	@rm -f $(all_clean)
