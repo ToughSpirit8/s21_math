@@ -5,7 +5,7 @@
 #include <check.h> //Нужна для модульного тестирования 
 
 
-#define _POSIX_C_SOURCE = 200809L
+#define _POSIX_C_SOURCE 200809L
 #define s21_Inf |x| / +0
 #define s21_NAN 0 / 0
 #define s21_PI 3.14159265358979323846L
@@ -25,7 +25,8 @@ long double s21_exp(double x); //возвращает значение e, воз
 long double s21_fabs(double x); //вычисляет абсолютное значение числа с плавающей точкой
 long double s21_floor(double x); //возвращает ближайшее целое число, не превышающее заданное значение
 long double s21_fmod(double x, double y); //остаток операции деления с плавающей точкой
-long double s21_log(double x); //вычисляет натуральный логарифм
+long double s21_log(long double x); //вычисляет натуральный логарифм 
+// Почему мы принимаем только дабл? Может LONG все таки?
 long double s21_pow(double base, double exp); //возводит число в заданную степень
 long double s21_sin(double x); //вычисляет синус
 long double s21_sqrt(double x); //вычисляет квадратный корень

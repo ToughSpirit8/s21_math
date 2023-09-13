@@ -3,6 +3,8 @@ CFLAGS=-Wall -Werror -Wextra -std=c11 -I.
 BIN=s21_math_pusk
 DEPS=s21_math.h
 OBJ=s21_math.o
+TESTS_SRC = tests/*.c
+
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
@@ -14,3 +16,4 @@ $(BIN): $(OBJ)
 
 clean:
 	rm -f *.o *.out
+
