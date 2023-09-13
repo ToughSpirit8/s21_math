@@ -1,14 +1,4 @@
-#include "../s21_math.h"
-#include <math.h>
-
-void case_test(Suite *s, int *fail);
-
-int main(void) {
-  int failed = 0;
-  case_test(test_pow(), &failed);
-
-  return failed;
-}
+#include "TEST_MATH.h"
 
 void case_test(Suite *s, int *fail) {
   SRunner *runner = srunner_create(s);
@@ -16,3 +6,10 @@ void case_test(Suite *s, int *fail) {
   *fail = srunner_ntests_failed(runner);
   srunner_free(runner);
 }
+int main(void) {
+  int failed = 0;
+  case_test(test_log(), &failed);
+
+  return failed;
+}
+
