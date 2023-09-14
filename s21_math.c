@@ -1,4 +1,7 @@
+#ifndef s21_math_h
+#define s21_math_h
 #include "s21_math.h"
+#endif
 
 typedef union {
     float f;
@@ -9,7 +12,3 @@ typedef union {
     } parts;
 } float_cast;
 
-int main () {
-    //printf("s21_PI * 2 = %.11Lf, s21_2PI = %.11f", s21_PI * 2, s21_2PI);
-    return 0;    
-}

@@ -1,18 +1,17 @@
 #include "TEST_MATH.h"
-
-
-START_TEST(pow_ints) {
-  for(long double x = 1;x<1000;x++){
-    ck_assert_ldouble_eq(s21_log(x), log(x)); 
+#include "../s21_math.h"
+START_TEST(test_case_100) {
+    ck_assert_ldouble_eq_tol(s21_log(_i), log(_i),0.00000001);
 }
 END_TEST
 
-Suite *test_log(void) {
-  Suite *s = suite_create("\033[45m-=s21_POW=-\033[0m"); // всякий мусор по типу \033 это покраска текста 
-  TCase *tc = tcase_create("log_ints");
 
-  suite_add_tcase(s, tc);
-  tcase_add_test(tc, log_ints);
+Suite *test_logarithmiscus(void) {
+
+  Suite *s = suite_create("\033[45m-=s21_INSERT=-\033[0m"); // suite это набор тест кейсов 
+  TCase *tc = tcase_create("log_100"); //TCase = тест кейс,           запускается только через suite
+
+  tcase_add_test(tc, test_case_100);
 
   suite_add_tcase(s, tc);
   return s;

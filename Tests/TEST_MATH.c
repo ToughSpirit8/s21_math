@@ -6,10 +6,10 @@ void case_test(Suite *s, int *fail) {
   *fail = srunner_ntests_failed(runner);
   srunner_free(runner);
 }
+
 int main(void) {
   int failed = 0;
-  case_test(test_log(), &failed);
-
+  case_test(test_logarithmiscus(), &failed);
   return failed;
 }
 

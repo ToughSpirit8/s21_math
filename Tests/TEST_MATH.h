@@ -1,4 +1,9 @@
-#include <math.h>
+#ifndef s21_math_h
+#define s21_math_h
+#include "../s21_math.h"
+#endif
+#include <stdio.h>
 #include <check.h>
-#include <locale.h>
-#include "../s21_log.c"
+#include <math.h>
+
+Suite *test_logarithmiscus(void);

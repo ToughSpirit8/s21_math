@@ -2,17 +2,19 @@
 #include <stdlib.h>
 #include <float.h> //возможно понадобится для констант, если нет удалить. Например при вычислении экспоненты чтобы не вылететь за пределы лонг дабла
 #include <limits.h> //возможно понадобится для констант, если нет удалить. Например, для диапазонов при исп лонг лонг инт
-#include <check.h> //Нужна для модульного тестирования 
-
-
 #define _POSIX_C_SOURCE 200809L
-#define s21_Inf |x| / +0
-#define s21_NAN 0 / 0
+//#define _GNU_SOURCE
+
+#define S21_NAN (0.0f / 0.0f)
+#define S21_ZERO_NEG -(0.0)
+#define S21_ZERO_POS (0.0)
+#define S21_INF_NEG (-1.0 / 0.0)
+#define S21_INF_POS (+1.0 / 0.0)
+#define S21_ISNAN(x) ((x) != (x))
 #define s21_PI 3.14159265358979323846L
+#define s21_PI_2 1.57079632679489661923L
 //#define s21_2PI 6.28318530718
 #define s21_e 2.71828182845904523536L
-
-
 //добавить второй standart
 
 int s21_abs(int x); //вычисляет абсолютное значение целого числа

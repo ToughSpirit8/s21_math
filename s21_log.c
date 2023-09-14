@@ -1,5 +1,4 @@
 #include "s21_math.h"
-
 //писос ну душные лекции конечно по этим логарифмам и не понятные и бесячие...
 // lg - логарифм с основанием 10, 
 // log логорифм с произвольным основанием,
@@ -8,13 +7,14 @@
 #define TOCHNOST 100
 
 
-long double s21_log(long double x) {
+long double *s21_log(long double x) {
+    
     if (x == 0) {
-        return -INFINITY; // Возвращаем -бесконечность при x = 0
+        return S21_INF_NEG; // Возвращаем -бесконечность при x = 0
     }
 
     if (x <= 0) {
-        return -NAN; // Возвращаем -NaN при x < 0
+        return S21_NAN; // Возвращаем -NaN при x < 0
     }
 
     if (x == 1.0) {
@@ -24,8 +24,8 @@ long double s21_log(long double x) {
     long double result = 0.0;
     long double term = (x - 1) / (x + 1);
     long double term_squared = term * term; // мы же не можем использовать степень приходится вот такую херню делать
-    long double numerator = term; //числитель в ряду маклориана
-    long double denominator = 1.0; // знаменатель в ряду макоронина                                             xD
+    long double numerator = term; //числитель в ряду Маклориана
+    long double denominator = 1.0; // знаменатель в ряду Макоронина                                             xD
 
     for (int i = 1; i <= TOCHNOST; i++) {
         result += numerator / denominator; // тут какая то магия 
