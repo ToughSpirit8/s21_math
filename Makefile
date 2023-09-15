@@ -1,19 +1,104 @@
-CC=gcc
-CFLAGS=-Wall -Werror -Wextra -std=c11 -I.
-BIN=s21_math_pusk
-DEPS=s21_math.h
-OBJ=s21_math.o
-TESTS_SRC = tests/*.c
+CC = gcc
+FLAGS = -Wall -Werror -Wextra
+LIBS = -lcheck -lsubunit -lm -lgcov
+FUNC_FILES_C = *.c
+FUNC_FILES_O = *.o
+CHECKFLAGS = $(shell pkg-config --cflags --libs check)
+GCOVFLAGS = -fprofile-arcs -ftest-coverage
+LIBNAME = s21_math.a
+GLFLAGS = --coverage
 
+all: s21_math.a
 
-%.o: %.c $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
+peer: 
+	make clean
+	make gcov_open
 
-$(BIN): $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS)
+build_object_files:
+	$(CC) $(FLAGS) $(GCOVFLAGS) $(GLFLAGS) -c $(FUNC_FILES_C)
 
-.PHONY: clean
+build_library:
+	ar rcs $(LIBNAME) $(FUNC_FILES_O)
+
+s21_math.a:
+	$(CC) $(FLAGS) -c $(FUNC_FILES_C)
+	make build_library
+	rm -rf *.o
+
+test: s21_math.a
+	# $(CC) tests/s21_test_abs.c -L. s21_math.a $(CHECKFLAGS) $(GLFLAGS) $(GCOVFLAGS) -o s21_abs_test
+	# $(CC) tests/s21_test_acos.c -L. s21_math.a $(CHECKFLAGS) $(GLFLAGS) $(GCOVFLAGS) -o s21_acos_test
+	# $(CC) tests/s21_test_asin.c -L. s21_math.a $(CHECKFLAGS) $(GLFLAGS) $(GCOVFLAGS) -o s21_asin_test
+	# $(CC) tests/s21_test_atan.c -L. s21_math.a $(CHECKFLAGS) $(GLFLAGS) $(GCOVFLAGS) -o s21_atan_test
+	# $(CC) tests/s21_test_ceil.c -L. s21_math.a $(CHECKFLAGS) $(GLFLAGS) $(GCOVFLAGS) -o s21_ceil_test
+	# $(CC) tests/s21_test_cos.c -L. s21_math.a $(CHECKFLAGS) $(GLFLAGS) $(GCOVFLAGS) -o s21_cos_test
+	# $(CC) tests/s21_test_exp.c -L. s21_math.a $(CHECKFLAGS) $(GLFLAGS) $(GCOVFLAGS) -o s21_exp_test
+	# $(CC) tests/s21_test_fabs.c -L. s21_math.a $(CHECKFLAGS) $(GLFLAGS) $(GCOVFLAGS) -o s21_fabs_test
+	# $(CC) tests/s21_test_floor.c -L. s21_math.a $(CHECKFLAGS) $(GLFLAGS) $(GCOVFLAGS) -o s21_floor_test
+	# $(CC) tests/s21_test_fmod.c -L. s21_math.a $(CHECKFLAGS) $(GLFLAGS) $(GCOVFLAGS) -o s21_fmod_test
+	$(CC) tests/test_log.c -L. s21_math.a $(CHECKFLAGS) $(GLFLAGS) $(GCOVFLAGS) -o s21_log_test
+	# $(CC) tests/s21_test_pow.c -L. s21_math.a $(CHECKFLAGS) $(GLFLAGS) $(GCOVFLAGS) -o s21_pow_test
+	# $(CC) tests/s21_test_sin.c -L. s21_math.a $(CHECKFLAGS) $(GLFLAGS) $(GCOVFLAGS) -o s21_sin_test
+	# $(CC) tests/s21_test_sqrt.c -L. s21_math.a $(CHECKFLAGS) $(GLFLAGS) $(GCOVFLAGS) -o s21_sqrt_test
+	# $(CC) tests/s21_test_tan.c -L. s21_math.a $(CHECKFLAGS) $(GLFLAGS) $(GCOVFLAGS) -o s21_tan_test
+	make start_tests
+
+start_tests:
+	./s21_log_test
+
+gcov_report: clean build_object_files build_library test
+	gcov $(FUNC_FILES_C)
+	~/.local/bin/gcovr -r . --html --html-details -o s21_math.html
+
+gcov_open: 
+	make gcov_report
+	@echo "Opening report..."
+	xdg-open s21_math.html
 
 clean:
-	rm -f *.o *.out
+	rm -f *.o
+	rm -f *.gcno
+	rm -f *.gcov
+	rm -f *.gcda
+	rm -f *.a
+	rm -f *.info
+	rm -f *.html
+	rm -f *.css
+	rm -f s21_*_test
 
+rebuild:
+	make clean
+	make
+
+.PHONY: cl
+cl:
+	clang-format -n *.c *.h
+	clang-format -n tests/*.c *.h
+
+.PHONY: cl-i
+cl-i:
+	clang-format -i *.c *.h
+	clang-format -i tests/*.c *.h
+
+.PHONY: cpp
+cpp:
+	cppcheck --enable=all --suppress=missingIncludeSystem --std=c11 *.c tests/*.c
+
+.PHONY: val
+val:
+	valgrind --tool=memcheck --leak-check=full ./s21_abs_test
+	valgrind --tool=memcheck --leak-check=full ./s21_acos_test
+	valgrind --tool=memcheck --leak-check=full ./s21_asin_test
+	valgrind --tool=memcheck --leak-check=full ./s21_atan_test
+	valgrind --tool=memcheck --leak-check=full ./s21_ceil_test
+	valgrind --tool=memcheck --leak-check=full ./s21_cos_test
+	valgrind --tool=memcheck --leak-check=full ./s21_exp_test
+	valgrind --tool=memcheck --leak-check=full ./s21_fabs_test
+	valgrind --tool=memcheck --leak-check=full ./s21_floor_test
+	valgrind --tool=memcheck --leak-check=full ./s21_fmod_test
+	valgrind --tool=memcheck --leak-check=full ./s21_log_test
+	valgrind --tool=memcheck --leak-check=full ./s21_pow_test
+	valgrind --tool=memcheck --leak-check=full ./s21_sqrt_test
+	valgrind --tool=memcheck --leak-check=full ./s21_tan_test
+	valgrind --tool=memcheck --leak-check=full ./s21_sin_test
+	

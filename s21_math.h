@@ -1,35 +1,41 @@
+#ifndef S21_MATH_H
+#define S21_MATH_H
+#include <float.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <float.h> //возможно понадобится для констант, если нет удалить. Например при вычислении экспоненты чтобы не вылететь за пределы лонг дабла
-#include <limits.h> //возможно понадобится для констант, если нет удалить. Например, для диапазонов при исп лонг лонг инт
-#define _POSIX_C_SOURCE 200809L
-//#define _GNU_SOURCE
+#include <check.h>
 
-#define S21_NAN (0.0f / 0.0f)
-#define S21_ZERO_NEG -(0.0)
-#define S21_ZERO_POS (0.0)
-#define S21_INF_NEG (-1.0 / 0.0)
-#define S21_INF_POS (+1.0 / 0.0)
-#define S21_ISNAN(x) ((x) != (x))
-#define s21_PI 3.14159265358979323846L
-#define s21_PI_2 1.57079632679489661923L
-//#define s21_2PI 6.28318530718
-#define s21_e 2.71828182845904523536L
-//добавить второй standart
+#define S21_E 2.718281828459045
+#define S21_PI 3.141592653589793
+#define S21_PI_12 (S21_PI / 12.F)
+#define S21_PI_6 (S21_PI / 6.F)
+#define S21_PI_2 (S21_PI / 2.F)
+#define S21_SQRT_3 (1.732050807569F)
+#define S21_EPS 1e-17
+#define S21_INF 1.0 / 0.0
+#define S21_NAN 0.0 / 0.0
+#define S21_NEGATIVE_ZERO -0.0
+#define S21_POSITIVE_ZERO 0.0
+#define S21_INF_POS +1.0 / 0.0
+#define S21_INF_NEG -1.0 / 0.0
+#define S21_SQRT_EPS 1e-20l
+#define TEST_EPS 1e-6l
+#define S21_ISNAN __builtin_isnan
+#define S21_ISINF __builtin_isinf
 
-int s21_abs(int x); //вычисляет абсолютное значение целого числа
-long double s21_acos(double x); //вычисляет арккосинус
-long double s21_asin(double x); //вычисляет арксинус
-long double s21_atan(double x); //вычисляет арктангенс
-long double s21_ceil(double x); //возвращает ближайшее целое число, не меньшее заданного значения
-long double s21_cos(double x); //вычисляет косинус
-long double s21_exp(double x); //возвращает значение e, возведенное в заданную степень
-long double s21_fabs(double x); //вычисляет абсолютное значение числа с плавающей точкой
-long double s21_floor(double x); //возвращает ближайшее целое число, не превышающее заданное значение
-long double s21_fmod(double x, double y); //остаток операции деления с плавающей точкой
-long double s21_log(long double x); //вычисляет натуральный логарифм 
-// Почему мы принимаем только дабл? Может LONG все таки?
-long double s21_pow(double base, double exp); //возводит число в заданную степень
-long double s21_sin(double x); //вычисляет синус
-long double s21_sqrt(double x); //вычисляет квадратный корень
-long double s21_tan(double x); //вычисляет тангенс
+int s21_abs(int x);
+long double s21_floor(double x);
+long double s21_ceil(double x);
+long double s21_fabs(double x);
+long double s21_exp(double x);
+long double s21_log(double x);
+long double s21_sqrt(double x);
+long double s21_fmod(double x, double y);
+long double s21_pow(double base, double exp);
+long double s21_cos(double x);
+long double s21_sin(double x);
+long double s21_tan(double x);
+long double s21_asin(double x);
+long double s21_acos(double x);
+long double s21_atan(double x);
+#endif  // S21_MATH_H
